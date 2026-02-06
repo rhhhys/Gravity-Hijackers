@@ -20,6 +20,14 @@ run/main_scene="res://scenes/testWorld.tscn"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="uid://el1jrwdua5i0"
 
+[dotnet]
+
+project/assembly_name="MultiplayerFPSTemplate"
+
+[filesystem]
+
+import/blender/enabled=false
+
 [input]
 
 ui_accept={
