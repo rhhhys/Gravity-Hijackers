@@ -20,11 +20,21 @@ grow_vertical = 2
 alignment = 1
 
 [node name="Label" type="Label" parent="HBoxContainer" unique_id=1360834814]
+custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 32
 text = "Action"
+vertical_alignment = 1
 
 [node name="VSeparator" type="VSeparator" parent="HBoxContainer" unique_id=669499096]
 layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 200
 
 [node name="Button" type="Button" parent="HBoxContainer" unique_id=1686553168]
+custom_minimum_size = Vector2(256, 0)
 layout_mode = 2
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 32
+text = "Action Key"
