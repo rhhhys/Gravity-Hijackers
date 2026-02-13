@@ -12,8 +12,13 @@ var Crouchstate : bool = false
 @export var ANIMATIONPLAYER : AnimationPlayer
 @export_range(5, 10, 0.1) var CROUCH_SPEED : float = 7.0
 
+
+@onready var ammo_display = Global.worldNode.hud.get_node("AmmoDisplay")
+
 var health = 3
 var ammo_count = 15
+
+var reloading = false
 
 var SPEED = 5.5
 const JUMP_VELOCITY = 10.0
@@ -23,7 +28,6 @@ const LOOK_SPEED = 5 # Adjust as needed for controller comfort
 var gravity = 20.0
 
 func _enter_tree():
-	print(name)
 	set_multiplayer_authority(str(name).to_int())
 
 func _ready():
@@ -43,8 +47,7 @@ func _unhandled_input(event):
 		camera.rotate_x(-event.relative.y * .005)
 		camera.rotation.x = clamp(camera.rotation.x, -PI/2, PI/2)
 	
-	if Input.is_action_just_pressed("reload"):
-		await get_tree().create_timer(1).timeout
+	if Input.is_action_just_pressed("reload") and !reloading and anim_player.current_animation != "shoot":
 		upd_ammo(0, true) # call reload update
 	
 	if Input.is_action_just_pressed("shoot") and anim_player.current_animation != "shoot" and ammo_count > 0:
@@ -132,7 +135,12 @@ func _on_animation_player_animation_finished(anim_name):
 
 func upd_ammo(num: int, reload: bool = false):
 	if reload:
+		reloading = true
+		Global.worldNode.hud.get_node("Crosshair").hide()
+		await get_tree().create_timer(1).timeout
+		Global.worldNode.hud.get_node("Crosshair").show()
 		ammo_count = 15
+		reloading = false
 	else:
 		ammo_count += num
 	ammo_display.text = "%d / 15" % ammo_count
