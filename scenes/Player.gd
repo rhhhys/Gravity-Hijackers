@@ -6,6 +6,13 @@ signal health_changed(health_value)
 @onready var anim_player = $AnimationPlayer
 @onready var muzzle_flash = $Camera3D/Pistol/MuzzleFlash
 @onready var raycast = $Camera3D/RayCast3D
+@onready var ammo_display = $Camera3D/AmmoDisplay
+
+var Crouchstate : bool = false
+@export var ANIMATIONPLAYER : AnimationPlayer
+@export_range(5, 10, 0.1) var CROUCH_SPEED : float = 7.0
+
+
 @onready var ammo_display = Global.worldNode.hud.get_node("AmmoDisplay")
 
 var health = 3
@@ -59,13 +66,17 @@ func _physics_process(delta):
 		velocity.y -= gravity * delta
 
 	# Handle Jump.
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
+	if Input.is_action_just_pressed("player_jump") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
 
 	if Input.is_action_pressed("player_sprint"):
 		SPEED = 8
 	else:
 		SPEED = 5.5
+
+	if Input.is_action_just_pressed("player_crouch"):
+		print("crouch")
+		crouch()
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
@@ -101,6 +112,8 @@ func _physics_process(delta):
 
 	move_and_slide()
 
+
+
 @rpc("call_local")
 func play_shoot_effects():
 	anim_player.stop()
@@ -131,3 +144,14 @@ func upd_ammo(num: int, reload: bool = false):
 	else:
 		ammo_count += num
 	ammo_display.text = "%d / 15" % ammo_count
+
+func crouch():
+	if Crouchstate == true:
+		if Input.is_action_just_pressed("player_crouch"):
+			anim_player.play("Crouch", -1, -CROUCH_SPEED, true)
+			Crouchstate = false
+	elif Crouchstate == false:
+		if Input.is_action_just_pressed("player_crouch"):
+			anim_player.play("Crouch", -1, CROUCH_SPEED)
+			Crouchstate = true
+	

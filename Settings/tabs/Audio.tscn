@@ -1,3 +1,9 @@
-[gd_scene format=3 uid="uid://gtk3jghjsk5k"]
+[gd_scene format=3 uid="uid://dr2k3s3nd4bmc"]
 
-[node name="Audio" type="Node2D" unique_id=2067122856]
+[node name="Control" type="Control" unique_id=204686953]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
