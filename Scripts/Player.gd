@@ -12,6 +12,8 @@ signal health_changed(health_value)
 @onready var crosshair = Global.worldNode.hud.get_node("Crosshair")
 @onready var ammo_display = Global.worldNode.hud.get_node("AmmoDisplay")
 @onready var grav_slider = Global.worldNode.hud.get_node("GravitySlider")
+@onready var flip_cd_label = Global.worldNode.hud.get_node("FlipCooldownLabel")
+@onready var grav_flip_timer = $GravFlipTimer
 
 #Preloads
 @onready var damage_billboard = preload("res://scenes/DamageIndicator.tscn")
@@ -138,14 +140,19 @@ func _physics_process(delta): #Occurs every delta frame
 		velocity.z = move_toward(velocity.z, 0, SPEED)
 	
 	#JUMPING AND GRAVITY
-	if Input.is_action_just_pressed("flip_gravity"):
+	if Input.is_action_just_pressed("flip_gravity") and grav_flip_timer.time_left == 0:
 		gravity_direction = -gravity_direction
+		grav_flip_timer.start()
 		# instant flip mechannics
 		#rotate_z(PI) # flip
 		#rotation.y = -rotation.y # correct flip reversal
 		#camera.rotation.x = -camera.rotation.x # correct flip reversal
 		#position -= Vector3(0, 2*gravity_direction, 0) # keep player pos after instant flip
 	rotation.z = lerp_angle(rotation.z, PI if gravity_direction == -1 else 0, 5*delta)
+	if grav_flip_timer.time_left == 0:
+		flip_cd_label.text = ""
+	else:
+		flip_cd_label.text = "CD %.2fs" % grav_flip_timer.time_left
 	
 	if (not is_on_floor() and gravity_direction == 1) or (not is_on_ceiling() and gravity_direction == -1):
 		velocity.y -= default_gravity * gravity_direction * gravity_strengths[int(grav_slider.value)] * delta

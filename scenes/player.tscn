@@ -390,5 +390,10 @@ text = "hi"
 
 [node name="Gun2" parent="." unique_id=693693121 instance=ExtResource("5_qlg0r")]
 transform = Transform3D(-2.1855694e-08, 0, 0.5, 0, 0.5, 0, -0.5, 0, -2.1855694e-08, -0.62836176, 0.5720277, 0.3218732)
+visible = false
+
+[node name="GravFlipTimer" type="Timer" parent="." unique_id=187622579]
+wait_time = 0.6
+one_shot = true
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

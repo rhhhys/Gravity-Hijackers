@@ -271,6 +271,16 @@ text = "1/2x"
 horizontal_alignment = 2
 vertical_alignment = 1
 
+[node name="FlipCooldownLabel" type="Label" parent="CanvasLayer/HUD" unique_id=1778085552]
+layout_mode = 0
+offset_left = 1792.0
+offset_top = 528.0
+offset_right = 1920.0
+offset_bottom = 599.0
+theme_override_font_sizes/font_size = 25
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=1971673780]
 _spawnable_scenes = PackedStringArray("uid://xcjrjq5cbn7y")
 spawn_path = NodePath("..")
