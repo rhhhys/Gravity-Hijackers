@@ -12,9 +12,10 @@ enum Teams {RED = 1, BLUE = 2}
 		update_editor_visual()
 
 func _ready():
-	if not Engine.is_editor_hint():
-		flag_status_label = get_tree().current_scene.get_node("CanvasLayer/HUD/FlagStatus")
-		status_timout = flag_status_label.get_node("Timer")
+	if Engine.is_editor_hint(): return
+	
+	flag_status_label = get_tree().current_scene.get_node("CanvasLayer/HUD/FlagStatus")
+	status_timout = flag_status_label.get_node("Timer")
 	
 	multiplayer.peer_connected.connect(load_capturing_player_node)
 	status_timout.timeout.connect(func(): flag_status_label.hide())

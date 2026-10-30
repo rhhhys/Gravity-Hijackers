@@ -28,16 +28,19 @@ var enet_peer = ENetMultiplayerPeer.new()
 
 func get_local_ip() -> String:
 	var addresses = IP.get_local_addresses()
+	var fallback_192 = ""
 	var fallback_172 = ""
 	
 	for ip in addresses:
+		if ip.begins_with("10."): # prioritize 255.0.0.0 subnet masks
+			return ip
 		if ip.begins_with("192.168."):
-			return ip
-		if ip.begins_with("10."):
-			return ip
+			fallback_192 = ip
 		if ip.begins_with("172."): # take precaution around 172 addresses because of vn bridges
 			fallback_172 = ip
 	
+	if fallback_192 != "":
+		return fallback_192
 	if fallback_172 != "":
 		return fallback_172
 	return "not found"
